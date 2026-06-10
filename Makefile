@@ -50,9 +50,9 @@ plugin: build ## Alias for `make build`
 
 spec-lint: ## Run the spec-linter component test suite (tools/spec-linter)
 	@if [ -x tools/spec-linter/.venv/bin/python ]; then \
-		( cd tools/spec-linter && .venv/bin/python -m pytest -q ); \
+		( cd tools/spec-linter && .venv/bin/python -m pytest -v ); \
 	else \
-		( cd tools/spec-linter && python3 -m pytest -q ); \
+		( cd tools/spec-linter && python3 -m pytest -v ); \
 	fi
 
 # ----------------------------------------------------------------------------
