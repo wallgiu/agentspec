@@ -1,9 +1,10 @@
 # Spec Linter — Gate A (spec validity) prototype
 
-Local, self-contained prototype that validates an **AgentSpec** YAML file with a
-**Pydantic v2** model and runs layered governance checks. It exists to validate an
-architecture decision (ADR-002): this is a **reference prototype**, not the
-production code.
+Local, self-contained prototype of a **contract-validation engine**: one mechanism,
+`lint(artifact, contract) -> Verdict`, with pluggable contracts as policy and a CLI
+that validates **AgentSpec** YAML files with a **Pydantic v2** model and layered
+governance checks. It exists to validate an architecture decision (ADR-002): this is
+a **reference prototype**, not the production code.
 
 ## What it proves
 
@@ -16,15 +17,18 @@ production code.
 4. A clean **PASS / WARN / FAIL** verdict with structured findings (rule, field,
    expected vs. found).
 5. A **CLI** that lints a file or directory and exits non-zero on FAIL.
+6. **One mechanism, many policies**: the same engine runs the agent-spec contract, a
+   data-loaded SDD-phase contract, and an instance-derived contract; usage policy
+   stays in consumers (here, the CLI).
 
 ## The four check layers (Gate A validates the spec only)
 
 | Layer | What it checks | Where |
 | --- | --- | --- |
-| **L1 Schema** | Required fields, types, enums, kebab-case `id`. ValidationError → FAIL (one finding per error). Unknown keys → WARN. | `models.py` (Pydantic) + `linter.py` |
+| **L1 Schema** | Required fields, types, enums, kebab-case `id`. ValidationError → FAIL (one finding per error). Unknown keys → WARN. | `models.py` (Pydantic) + `contracts/agent_spec.py` |
 | **L2 Contract / governance** | `maturity` ⇒ `stop_conditions` + `escalation_rules`; `V2/V3` ⇒ `observability`; `V3` ⇒ `memory_backend` + `recall_strategy`; `publish` ⇒ `security_review`. | `rules.py` |
 | **L3 Consistency** | Every `requirements` item has a matching `deliverables` item (exact string). | `rules.py` |
-| **L4 Identity** | Duplicate `id` across files in a directory lint (single-file lint skips L4). | `rules.py` + `linter.py` |
+| **L4 Identity** | Duplicate `id` across files in a directory lint (single-file lint skips L4). | `rules.py` + `cli.py` |
 
 **Why L2/L3 are functions, not `model_validator`s that raise:** the spec model uses
 `extra="allow"`, and a spec can be schema-valid yet governance-invalid. Keeping
@@ -41,11 +45,15 @@ a single layer or concern:
 
 | Module | Role |
 | --- | --- |
-| `spec_linter/models.py` | L1 schema (Pydantic v2) + JSON Schema source |
+| `spec_linter/engine.py` | the single mechanism: `lint(artifact, contract) -> Verdict` |
+| `spec_linter/protocol.py` | the `Contract` protocol (`parse` + `check`) |
+| `spec_linter/contracts/agent_spec.py` | agent-spec reference contract + `emit_json_schema` |
+| `spec_linter/contracts/sdd_phase.py` | SDD-phase contract built from a `required_sections` list |
+| `spec_linter/contracts/instance.py` | contract derived from a spec instance's `output_contract` |
+| `spec_linter/models.py` | the `AgentSpec` model — L1 schema (Pydantic v2) + JSON Schema source |
 | `spec_linter/verdict.py` | `Level`, `Finding`, `Verdict` output model |
 | `spec_linter/rules.py` | L2/L3/L4 check functions |
-| `spec_linter/linter.py` | orchestration: `lint_spec` / `lint_file` / `lint_dir` / `emit_json_schema` |
-| `spec_linter/cli.py` | CLI entry point |
+| `spec_linter/cli.py` | CLI entry point: file/dir linting (incl. L4 wiring) + schema emission |
 | `schema/agent_spec.schema.json` | committed `model_json_schema()` output (regenerable) |
 
 ## Run it

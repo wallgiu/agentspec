@@ -63,8 +63,8 @@ Findings are classified on the L1–L4 taxonomy (schema / contract / consistency
   `.yaml`/`.yml` files (a directory run adds the cross-file duplicate-id
   check). Exit code is 1 if any verdict is FAIL, else 0.
 - `--emit-schema OUT.json` writes the reference contract's JSON Schema to
-  `OUT.json` (combine with a path to also lint; alone it just writes and exits
-  0).
+  `OUT.json`, creating parent directories as needed (combine with a path to
+  also lint; alone it just writes and exits 0).
 - Programmatic: `from spec_linter.engine import lint`; pass any Contract.
 
   ```python
