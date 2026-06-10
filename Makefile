@@ -16,7 +16,7 @@
 SHELL := /usr/bin/env bash
 
 .DEFAULT_GOAL := help
-.PHONY: help build test check lint clean generate plugin install-deps
+.PHONY: help build test check lint clean generate plugin install-deps spec-lint
 
 # ----------------------------------------------------------------------------
 # Help
@@ -47,6 +47,13 @@ generate: ## Regenerate agent-router artifacts (SKILL.md + routing.json)
 	@python3 scripts/generate-agent-router.py
 
 plugin: build ## Alias for `make build`
+
+spec-lint: ## Run the spec-linter component test suite (tools/spec-linter)
+	@if [ -x tools/spec-linter/.venv/bin/python ]; then \
+		( cd tools/spec-linter && .venv/bin/python -m pytest -q ); \
+	else \
+		( cd tools/spec-linter && python3 -m pytest -q ); \
+	fi
 
 # ----------------------------------------------------------------------------
 # Hygiene
