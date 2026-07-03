@@ -21,10 +21,13 @@ Author the skill itself with Anthropic's upstream `skill-creator` skill where it
 
 | Concern | Owner |
 |---|---|
-| Skill structure, description craft, progressive disclosure, packaging, evals | `skill-creator` (upstream) — invoke it when available |
+| Skill structure, description craft, progressive disclosure, packaging, evals | `skill-creator` (upstream) — invoke it when available, fetch it when not |
 | Naming, placement, frontmatter pitfalls, ship checklist | this skill |
 
-If `skill-creator` is not installed, three principles carry most of its weight: one skill = one capability (split when triggers stop being related); the `description` is the entire trigger mechanism (what it does + when to use it + one "do not use for" boundary, third person, ≤1024 chars); keep SKILL.md under ~500 lines and push detail into `references/` (read on demand), `scripts/` (deterministic helpers), and `assets/` (files used in output).
+When `skill-creator` is not installed, fall back in order:
+
+1. **Fetch the upstream methodology directly** — it is public. Retrieve `https://raw.githubusercontent.com/anthropics/skills/main/skills/skill-creator/SKILL.md` (web fetch or `curl`) and follow it as if the skill were installed; it references sibling files under the same directory that can be fetched the same way when needed.
+2. **Offline as well?** Three principles carry most of its weight: one skill = one capability (split when triggers stop being related); the `description` is the entire trigger mechanism (what it does + when to use it + one "do not use for" boundary, third person, ≤1024 chars); keep SKILL.md under ~500 lines and push detail into `references/` (read on demand), `scripts/` (deterministic helpers), and `assets/` (files used in output).
 
 ## Repo conventions
 
