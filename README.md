@@ -214,14 +214,14 @@ agentspec/
 ├── .claude/                 # Source of truth (development)
 │   ├── agents/              # 58 agents across 8 categories
 │   ├── commands/            # 31 slash commands
-│   ├── skills/              # 10 source skills (router, visuals, GitHub workflow, KB, standup…)
+│   ├── skills/              # 19 source skills (SDD phases, GitHub workflow, authoring, KB, visuals…)
 │   ├── kb/                  # 24 knowledge base domains
 │   └── sdd/                 # Templates, contracts, features, archive
 │
 ├── plugin/                  # Distributable Claude Code plugin
 │   ├── .claude-plugin/      # Manifest + marketplace config
 │   ├── agents/              # Path-rewritten agents
-│   ├── skills/              # 9 skills (7 from .claude/ + 2 plugin-only)
+│   ├── skills/              # 16 skills (15 from .claude/ + 1 plugin-only)
 │   ├── hooks/               # SessionStart workspace init
 │   └── ...                  # commands, kb, sdd, scripts
 │

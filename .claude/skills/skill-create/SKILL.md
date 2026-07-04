@@ -17,6 +17,8 @@ description: |
 
 Author the skill itself with Anthropic's upstream `skill-creator` skill where it is installed — it owns the general methodology (structure, description writing, progressive disclosure, packaging, evals). This skill carries only what `skill-creator` cannot know: this repository's conventions and build pipeline. Do not duplicate the upstream methodology here or in the skills you write.
 
+Before authoring anything, confirm a skill is the right layer: run the `component-model` skill (canonical model: `.claude/kb/shared/component-model.md`). Many "new skill" asks turn out to be commands, KB content, or a thin agent plus an existing skill.
+
 ## Division of labor
 
 | Concern | Owner |

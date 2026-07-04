@@ -43,7 +43,7 @@ Complete catalog of commands, agents, KB domains, templates, and configuration.
 
 | Command | Purpose | Input |
 |---------|---------|-------|
-| `/create-kb` | Create a KB domain | Domain name |
+| `/create-kb` | Create a KB domain — light single-pass by default, `--validated` for a source-verified build, `--audit` for health | Domain name + optional flags |
 
 ### Review Commands (2)
 
@@ -285,7 +285,7 @@ All templates live in `.claude/kb/_templates/`:
 
 ---
 
-## Skills (7 core + 2 plugin-only + 3 repo-local)
+## Skills (15 core + 1 plugin-only + 4 repo-local)
 
 Skills are reusable capability packs in `.claude/skills/` that provide templates, references, and scripts for specialized generation tasks.
 
@@ -297,7 +297,15 @@ Skills are reusable capability packs in `.claude/skills/` that provide templates
 | `github-cr-adr` | Drafts an Architecture Decision Record with a worthiness gate and pre-draft dedup; drafts are ephemeral (`.claude/sdd/drafts/`) and published via `github-post-issue` | Invoked directly |
 | `github-cr-issue` | Drafts typed issues (feature, component, task, bug, spike) from per-type templates — self-contained, dedup-first, no labels in the body | Invoked directly |
 | `github-post-issue` | Guarded `gh` publishing and board curation: live label validation with human-in-the-loop creation, native sub-issue relationships, assignee-as-ownership, close-never-delete; assigns ADR numbers from the issue number at publish | Invoked directly |
-| `kb-build` | High-assurance, source-verified knowledge-base building with adversarial verification and an independent fact-check gate | Invoked directly |
+| `kb-build` | High-assurance, source-verified knowledge-base building with adversarial verification and an independent fact-check gate | Via `/create-kb --validated` (or directly) |
+| `component-model` | Layer-decision capability: where new logic lives (agent/skill/command/KB) + the fat-to-thin refactor procedure; operationalizes `kb/shared/component-model.md` | Invoked directly; loaded by the authoring skills |
+| `sdd-workflow` | Umbrella guide for the 5-phase SDD workflow; points at the per-phase skills | Auto-invoked on SDD discussions |
+| `sdd-brainstorm` | Phase 0 methodology — discovery questions, approach comparison, YAGNI, incremental validation | Loaded by brainstorm-agent + `/brainstorm` |
+| `sdd-define` | Phase 1 methodology — entity extraction, clarity scoring (≥12/15), gap filling | Loaded by define-agent + `/define` |
+| `sdd-design` | Phase 2 methodology — architecture, inline decisions, file manifest, testing strategy | Loaded by design-agent + `/design` |
+| `sdd-build` | Phase 3 methodology — task extraction, delegation, verification, build report | Loaded by build-agent + `/build` |
+| `sdd-ship` | Phase 4 methodology — completion verification, archival, lessons learned | Loaded by ship-agent + `/ship` |
+| `sdd-iterate` | Cross-phase methodology — change classification, cascade analysis, version tracking | Loaded by iterate-agent + `/iterate` |
 
 ### Repo-Local Skills (not distributed)
 
@@ -306,6 +314,7 @@ These skills support contributors working in this repository and are excluded fr
 | Skill | Description |
 |-------|-------------|
 | `skill-create` | This repository's conventions for adding a skill — naming, placement tiers, frontmatter pitfalls, ship checklist; defers general skill-writing craft to the upstream `skill-creator` |
+| `agent-create` | This repository's conventions for adding an agent — the frontmatter contract (router-feeding fields), thin-executor default, router regeneration, ship checklist |
 | `meeting-analysis` | Turns a meeting transcript into a validated analysis document (via `meeting-analyst`) plus a channel-ready follow-up message |
 | `standup-report` | Daily standup message (Done / Will do / Blockers) assembled from git history, PRs/issues, and user input |
 
@@ -315,8 +324,9 @@ These skills are bundled in the distributed plugin (`plugin/skills/`) at build t
 
 | Skill | Description |
 |-------|-------------|
-| `sdd-workflow` | Spec-Driven Development workflow guidance for structured feature development. Proactively guides through the 5-phase SDD workflow: Brainstorm → Define → Design → Build → Ship. |
 | `data-engineering-guide` | Data engineering expertise for pipelines, schemas, data quality, SQL, lakehouse, and streaming. Routes users to the right command and agent based on their task, backed by 24 KB domains. |
+
+(`sdd-workflow` moved from plugin-only into the `.claude/skills/` source tree alongside the per-phase `sdd-*` skills it indexes.)
 
 ---
 
