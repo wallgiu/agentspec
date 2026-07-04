@@ -5,6 +5,8 @@ description: |
   Use PROACTIVELY when the user discusses building features, planning implementations, capturing requirements,
   designing architectures, or shipping completed work. Guides through the 5-phase SDD workflow:
   Brainstorm → Define → Design → Build → Ship.
+  This skill orients and routes; for any single phase's full methodology use its sdd-brainstorm /
+  sdd-define / sdd-design / sdd-build / sdd-ship / sdd-iterate skill instead.
 ---
 
 # SDD Workflow Guide

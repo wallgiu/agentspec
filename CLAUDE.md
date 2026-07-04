@@ -105,7 +105,7 @@ agentspec/
 │   └── scripts/             # init-workspace.sh
 │
 ├── plugin-extras/           # Plugin-only content (merged into plugin/ by build)
-│   ├── skills/              # sdd-workflow, data-engineering-guide
+│   ├── skills/              # data-engineering-guide
 │   ├── hooks/               # hooks.json
 │   └── scripts/             # init-workspace.sh
 │
@@ -170,7 +170,7 @@ Data engineering example:
 | Documentation overhaul | Done | Getting started, concepts, tutorials, reference, README |
 | Create CLAUDE.md.template | Pending | Template for user projects |
 | Judge Layer V0 (`/judge`) | Done | OpenRouter cross-model second opinion with budget ledger |
-| `--judge` flag on phase commands | Done | Inline cross-model verification on `/define`, `/design`, `/build`, `/iterate` |
+| `--judge` flag on phase commands | Done | Inline cross-model verification on `/define`, `/design`, `/build` |
 | Judge Layer V1+ | Planned | Multi-model ensemble, PostToolUse hook, automated escalation |
 | Flag System (progressive enhancement) | Planned | Unified flag vocabulary across phase commands |
 | Add telemetry | Planned | Local usage tracking |
