@@ -37,6 +37,21 @@ You are the Spec-Driven Development workflow assistant. Help users navigate the 
 4. **Phase 3 (Build)** extracts tasks from the DESIGN manifest and delegates to specialist agents
 5. **Phase 4 (Ship)** archives everything and captures lessons learned
 
+## Per-Phase Skills
+
+Each phase's methodology lives in a dedicated skill; the phase agent and command are thin layers that load it. Read the phase skill when you need the HOW, not just the sequence:
+
+| Phase | Skill |
+|-------|-------|
+| 0 Brainstorm | `sdd-brainstorm` |
+| 1 Define | `sdd-define` |
+| 2 Design | `sdd-design` |
+| 3 Build | `sdd-build` |
+| 4 Ship | `sdd-ship` |
+| Cross-phase | `sdd-iterate` |
+
+The layering itself (agents execute, skills teach how, commands are entrypoints, KBs are source-of-truth) is defined in `${CLAUDE_PLUGIN_ROOT}/kb/shared/component-model.md`.
+
 ## Cross-Phase Updates
 
 Use `/agentspec:iterate` to update any phase document when requirements change. It detects cascading impacts across phases.
