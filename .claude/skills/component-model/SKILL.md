@@ -4,11 +4,11 @@ description: |
   Decides where new logic lives in the component model — agent, skill, command, KB, or
   template — and how to keep components in their layer, routing each decision to the
   right authoring resource and running the fat-to-thin refactor when a component has
-  outgrown its layer. Loaded by the authoring flows (skill-create, agent-create,
+  outgrown its layer. Loaded by the authoring flows (create-skill, create-agent,
   kb-build, create-kb) as their layer-decision gate. Use for "should this be an agent
   or a skill", "where does this logic go", adding a new component, "this agent is too
   big", or restructuring/refactoring an agent into skills. Do not use to author the
-  chosen component itself — that is skill-create, agent-create, or /create-kb.
+  chosen component itself — that is create-skill, create-agent, or /create-kb.
 ---
 
 # Component Model — layer decision and fat-to-thin refactor
@@ -32,7 +32,7 @@ restate it.
 ## Skip if
 
 - The layer is already decided and you are authoring the component — go straight to
-  `skill-create`, `agent-create`, or `/create-kb`.
+  `create-skill`, `create-agent`, or `/create-kb`.
 - The change is content-only inside an existing component (fixing a step in a skill,
   updating a KB fact) — no layer question exists.
 
@@ -71,8 +71,8 @@ restate it.
 
    | Chosen layer | Author it with |
    |---|---|
-   | Skill | `skill-create` — repo naming, placement, frontmatter, ship checklist; defers to upstream `skill-creator` for general craft |
-   | Agent | `agent-create` |
+   | Skill | `create-skill` — repo naming, placement, frontmatter, ship checklist; defers to upstream `skill-creator` for general craft |
+   | Agent | `create-agent` |
    | KB domain | `/create-kb`; add `--validated` (the `kb-build` skill) when every claim must be source-verified |
    | Command | no authoring skill — keep it thin: parse arguments, pick the mode, load the skill or delegate to the agent |
    | Template | own it in the template directories (`.claude/sdd/templates/`, `.claude/kb/_templates/`) and have skills reference it |
@@ -97,7 +97,7 @@ agent) has absorbed methodology that belongs a layer down:
 
 1. **Split the body** into methodology (process steps, frameworks, checklists) versus
    executor shell (identity, non-negotiable policies, escalation).
-2. **Create the skill** — named `<domain>-<verb>` per `skill-create` conventions — and
+2. **Create the skill** — named `<domain>-<verb>` per `create-skill` conventions — and
    move the methodology into it; point at templates for artifact shapes instead of
    re-inlining them.
 3. **Shrink the agent** to identity + policies + one loading instruction: read the
@@ -119,6 +119,6 @@ sequencing them.
 | Resource | When to read |
 |---|---|
 | `.claude/kb/shared/component-model.md` | Always — the source of truth for layer definitions, the placement table, and anti-pattern rationale |
-| `skill-create` skill | The decision landed on "skill" |
-| `agent-create` skill | The decision landed on "agent" |
+| `create-skill` skill | The decision landed on "skill" |
+| `create-agent` skill | The decision landed on "agent" |
 | `kb-build` skill / `/create-kb` command | The decision landed on "KB domain" |

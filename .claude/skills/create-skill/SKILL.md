@@ -1,5 +1,5 @@
 ---
-name: skill-create
+name: create-skill
 description: |
   Repo-specific layer for adding a new Claude Code skill to this repository — naming
   conventions, where the skill lives (distributed, plugin-only, or repo-local), YAML

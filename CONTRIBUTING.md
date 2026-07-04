@@ -112,7 +112,7 @@ Before adding any component, decide the layer first — agents execute, skills t
    - `scripts/` — automation scripts (optional)
 4. Create corresponding commands in `.claude/commands/your-skill/`
 
-See existing skills (`visual-explainer`, `excalidraw-diagram`) for examples, and the `skill-create` skill for this repository's authoring conventions (naming, placement tiers, frontmatter pitfalls, ship checklist).
+See existing skills (`visual-explainer`, `excalidraw-diagram`) for examples, and the `create-skill` skill for this repository's authoring conventions (naming, placement tiers, frontmatter pitfalls, ship checklist).
 
 ## Bug Fixes
 

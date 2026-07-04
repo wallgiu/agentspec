@@ -313,8 +313,8 @@ These skills support contributors working in this repository and are excluded fr
 
 | Skill | Description |
 |-------|-------------|
-| `skill-create` | This repository's conventions for adding a skill — naming, placement tiers, frontmatter pitfalls, ship checklist; defers general skill-writing craft to the upstream `skill-creator` |
-| `agent-create` | This repository's conventions for adding an agent — the frontmatter contract (router-feeding fields), thin-executor default, router regeneration, ship checklist |
+| `create-skill` | This repository's conventions for adding a skill — naming, placement tiers, frontmatter pitfalls, ship checklist; defers general skill-writing craft to the upstream `skill-creator` |
+| `create-agent` | This repository's conventions for adding an agent — the frontmatter contract (router-feeding fields), thin-executor default, router regeneration, ship checklist |
 | `meeting-analysis` | Turns a meeting transcript into a validated analysis document (via `meeting-analyst`) plus a channel-ready follow-up message |
 | `standup-report` | Daily standup message (Done / Will do / Blockers) assembled from git history, PRs/issues, and user input |
 

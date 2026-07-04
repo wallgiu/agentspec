@@ -1,6 +1,6 @@
 # Component Model — agents, skills, commands, knowledge bases
 
-> **Scope:** the canonical definition of what each component type is FOR, and the decision rule for where new logic lives. Referenced by the authoring skills (`skill-create`, `agent-create`, `kb-build`, the `component-model` skill) and exemplified by the SDD workflow components.
+> **Scope:** the canonical definition of what each component type is FOR, and the decision rule for where new logic lives. Referenced by the authoring skills (`create-skill`, `create-agent`, `kb-build`, the `component-model` skill) and exemplified by the SDD workflow components.
 
 ## The four layers
 

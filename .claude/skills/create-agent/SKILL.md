@@ -1,12 +1,12 @@
 ---
-name: agent-create
+name: create-agent
 description: |
   Repo-specific SOP for adding a new agent to this repository — the frontmatter
   contract the auto-generated router feeds on (name, description one-liner, tier,
   model, tools, kb_domains, stop conditions, escalation targets), the thin-executor
   default, category placement, and the router/build/docs ship checklist. Use when
   the user wants to create an agent, add a new agent to this repository, or asks
-  for a new specialist agent. Do not use for creating skills (use skill-create) or
+  for a new specialist agent. Do not use for creating skills (use create-skill) or
   KB domains (use /create-kb); to decide whether an agent is even the right layer,
   run the component-model skill first — most "new agent" requests turn out to be
   new skills plus a thin executor.
@@ -22,7 +22,7 @@ Agents are the EXECUTION layer of the component model: identity, tool scope, mod
 |---|---|
 | Is an agent even the right layer? | the `component-model` skill (gate), grounded in `.claude/kb/shared/component-model.md` |
 | Section structure, tier line budgets, section-by-tier requirements | `.claude/agents/_template.md` (copy it) + `.claude/agents/README.md` |
-| The methodology the agent executes | a skill, authored via `skill-create` |
+| The methodology the agent executes | a skill, authored via `create-skill` |
 | Frontmatter contract, router coupling, ship checklist | this skill |
 
 ## When to use / Skip if
@@ -36,7 +36,7 @@ Use this skill when:
 
 Skip if:
 
-- The capability is methodology or how-to knowledge → `skill-create`.
+- The capability is methodology or how-to knowledge → `create-skill`.
 - The content is reference truth (facts, standards, deep dives) → `/create-kb`.
 - An existing agent already covers most of the capability → extend it instead; apply the four-condition gate in `.claude/agents/README.md` ("When NOT to Create an Agent" — no existing agent covers >60%, unique KB/tool combination, ≥3 distinct triggers, no >80% overlap).
 - Undecided which layer the logic belongs in → the `component-model` skill first.
@@ -105,7 +105,7 @@ From this contract the router derives: the one-liner (description line one), a `
 
 ## Thin executor by default
 
-New agents start thin: the frontmatter contract, an identity statement, the role's non-negotiable policies, and one loading instruction — *read the corresponding skill and execute it*. Write the methodology as a skill via `skill-create`, so it can be versioned, swapped, and reused by commands without touching the executor.
+New agents start thin: the frontmatter contract, an identity statement, the role's non-negotiable policies, and one loading instruction — *read the corresponding skill and execute it*. Write the methodology as a skill via `create-skill`, so it can be versioned, swapped, and reused by commands without touching the executor.
 
 The SDD workflow agents (`.claude/agents/workflow/`) are the reference shape for this split — phase executors whose method lives in the workflow skills, per the component model.
 
@@ -130,5 +130,5 @@ Every new agent passes this before review:
 - `.claude/kb/shared/component-model.md` — the four-layer model, thin-executor pattern, anti-patterns (the `component-model` skill is its operational gate)
 - `.claude/agents/_template.md` — the scaffold: frontmatter schema, tier guide, section-by-tier requirements
 - `.claude/agents/README.md` — the hand-maintained catalog: categories, tiers, escalation map, "When NOT to Create an Agent"
-- `.claude/skills/skill-create/SKILL.md` — the sibling SOP for the skill that carries the new agent's methodology
+- `.claude/skills/create-skill/SKILL.md` — the sibling SOP for the skill that carries the new agent's methodology
 - `scripts/generate-agent-router.py` — the generator this frontmatter contract feeds
