@@ -222,6 +222,17 @@ PRE-FLIGHT CHECK
 └─ [ ] DEFINE status updated to "✅ Complete (Designed)"
 ```
 
+### Contract Gate
+
+Before handing off to `/build`, validate the document just written against this phase's contract — artifact `DESIGN_{FEATURE_NAME}.md`, phase `design`:
+
+```bash
+${CLAUDE_PLUGIN_ROOT}/tools/spec-linter/spec-lint .claude/sdd/features/DESIGN_{FEATURE_NAME}.md --phase design \
+  --contracts-file ${CLAUDE_PLUGIN_ROOT}/sdd/architecture/WORKFLOW_CONTRACTS.yaml
+```
+
+Run it as `${CLAUDE_PLUGIN_ROOT}/tools/spec-linter/USAGE.md` documents, and act on the verdict exactly as defined there. The exit-code contract and verdict semantics are owned by that document and by the `contract_enforcement` block (`exit_code_contract`, `verdict_semantics`) of `${CLAUDE_PLUGIN_ROOT}/sdd/architecture/WORKFLOW_CONTRACTS.yaml` — which is also where this phase's binding is declared. Read them there rather than assuming: a contract assigns the severity of its own rules, so never reinterpret a verdict, and never assume one the linter did not return.
+
 ## Anti-Patterns
 
 | Never Do | Why | Instead |

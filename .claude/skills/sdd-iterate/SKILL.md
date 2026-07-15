@@ -183,6 +183,18 @@ PRE-FLIGHT CHECK
 └─ [ ] Downstream updates applied (if cascaded and confirmed)
 ```
 
+### Contract Gate
+
+Iterate has no contract of its own: after applying the edit, validate the edited document against the contract for **its own phase**. The artifact is whatever document you just edited, and the `--phase` is the phase that produced it (`define` for a DEFINE document, `design` for a DESIGN document) — repeat this for each document a cascade touched:
+
+```bash
+# --phase must match the document being validated, not the phase you came from
+tools/spec-linter/spec-lint <EDITED_DOC.md> --phase <define|design> \
+  --contracts-file .claude/sdd/architecture/WORKFLOW_CONTRACTS.yaml
+```
+
+Which phases carry a contract is decided by `required_sections` in `.claude/sdd/architecture/WORKFLOW_CONTRACTS.yaml`, not by this skill — if the edited document's phase has none, the linter reports that itself; act on what it returns. Run it as `tools/spec-linter/USAGE.md` documents, and act on the verdict exactly as defined there. The exit-code contract and verdict semantics are owned by that document and by the `contract_enforcement` block (`exit_code_contract`, `verdict_semantics`) of the same contract file — which is also where this binding is declared. Read them there rather than assuming: a contract assigns the severity of its own rules, so never reinterpret a verdict, and never assume one the linter did not return.
+
 ## Anti-Patterns
 
 | Never Do | Why | Instead |
@@ -222,7 +234,9 @@ review decides between an in-place update and a fresh `/define`.
 ## References
 
 - Contract: `.claude/sdd/architecture/WORKFLOW_CONTRACTS.yaml` (`iterate` block: command
-  surface, `works_with` chain, thresholds; `status_transitions.update_rules` for Status fields)
+  surface, `works_with` chain, thresholds; `status_transitions.update_rules` for Status fields;
+  `contract_enforcement` for the binding, exit-code contract, and verdict semantics)
+- Contract gate runner: `tools/spec-linter/USAGE.md`
 - Templates: `.claude/sdd/templates/DEFINE_TEMPLATE.md`,
   `.claude/sdd/templates/DESIGN_TEMPLATE.md` (Revision History shape)
 - Executor: `.claude/agents/workflow/iterate-agent.md`

@@ -214,6 +214,17 @@ PRE-FLIGHT CHECK
 
 The clarity gate is hard: below 12/15 the phase does not complete — ask, iterate, or mark the document `Needs Clarification` and state what is missing.
 
+### Contract gate
+
+Before handing off to `/design`, validate the document just written against this phase's contract — artifact `DEFINE_{FEATURE_NAME}.md`, phase `define`:
+
+```bash
+tools/spec-linter/spec-lint .claude/sdd/features/DEFINE_{FEATURE_NAME}.md --phase define \
+  --contracts-file .claude/sdd/architecture/WORKFLOW_CONTRACTS.yaml
+```
+
+Run it as `tools/spec-linter/USAGE.md` documents, and act on the verdict exactly as defined there. The exit-code contract and verdict semantics are owned by that document and by the `contract_enforcement` block (`exit_code_contract`, `verdict_semantics`) of `.claude/sdd/architecture/WORKFLOW_CONTRACTS.yaml` — which is also where this phase's binding is declared. Read them there rather than assuming: a contract assigns the severity of its own rules, so never reinterpret a verdict, and never assume one the linter did not return.
+
 ## Anti-patterns
 
 | Never Do | Why | Instead |

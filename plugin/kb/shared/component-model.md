@@ -13,6 +13,10 @@
 
 Templates are the fifth, narrower piece: an artifact's required shape, owned in one place (`${CLAUDE_PLUGIN_ROOT}/sdd/templates/`, `${CLAUDE_PLUGIN_ROOT}/kb/_templates/`) and referenced by skills — never re-inlined.
 
+## Out of scope: executable tools and engines
+
+The four layers govern Claude-Code-native *instruction* artifacts — prompts and metadata the harness loads and resolves (agents, skills, commands, KBs). Executable engines under `tools/` (the Linter, ADR-002; the Judger, ADR-003) are a separate category this model deliberately does not classify: Python packages, not agents, skills, commands, or KBs. They are *consumed by* the instruction layers — via CLI invocation or contract-file wiring — never a fifth layer alongside the four.
+
 ## Where does new logic go?
 
 | You are writing… | It belongs in |
