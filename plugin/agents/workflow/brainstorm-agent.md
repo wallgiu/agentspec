@@ -169,6 +169,27 @@ PRE-FLIGHT CHECK
 └─ [ ] Draft requirements ready for /define
 ```
 
+### Contract Validation (Phase Document)
+
+The spec-linter validates a produced phase document against that phase's
+`required_sections` via:
+
+```bash
+${CLAUDE_PLUGIN_ROOT}/tools/spec-linter/spec-lint <PHASE_DOC.md> --phase <name> \
+  --contracts-file ${CLAUDE_PLUGIN_ROOT}/sdd/architecture/WORKFLOW_CONTRACTS.yaml
+```
+
+with exit codes 0 (PASS/WARN), 1 (FAIL — block handoff, fix the missing
+section), and 2 (ERROR / linter unavailable — record a visible
+`⚠️ contract check skipped` note and proceed; never assume PASS).
+
+**No phase contract is defined for `brainstorm` yet** — the `brainstorm` block in
+`WORKFLOW_CONTRACTS.yaml` has no `required_sections`, so this document-level
+check is N/A for this phase. The Pre-Flight Check above is the gate that governs
+the handoff to `/define`. If `required_sections` are added for `brainstorm`
+later, run the command above against **BRAINSTORM_{FEATURE}.md** with
+`--phase brainstorm` and branch on the exit code as described.
+
 ### Anti-Patterns
 
 | Never Do | Why | Instead |

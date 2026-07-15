@@ -207,6 +207,31 @@ PRE-FLIGHT CHECK
 └─ [ ] Clarity score >= 12/15
 ```
 
+### Contract Validation (Phase Document)
+
+Before handing off, validate the produced **DEFINE_{FEATURE}.md** against this
+phase's contract (its `required_sections`) by running the spec-linter wrapper:
+
+```bash
+tools/spec-linter/spec-lint <DEFINE_{FEATURE}.md> --phase define \
+  --contracts-file .claude/sdd/architecture/WORKFLOW_CONTRACTS.yaml
+```
+
+Branch on the exit code:
+
+- **0 (PASS/WARN)** → proceed; if any `WARN` finding was reported, record it in
+  the handoff.
+- **1 (FAIL)** → a required section is missing. BLOCK handoff: surface the
+  findings and regenerate the document to add the missing section(s) before
+  proceeding.
+- **2 (ERROR / linter unavailable)** → record a VISIBLE note
+  (`⚠️ contract check skipped — linter unavailable`) and proceed. Never treat
+  exit 2 as a PASS.
+
+In the development repo this check runs for real. In an installed plugin it is
+best-effort and degrades safely (the visible skip above) until runtime
+dependency provisioning lands.
+
 ### Anti-Patterns
 
 | Never Do | Why | Instead |

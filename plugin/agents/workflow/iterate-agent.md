@@ -194,6 +194,33 @@ PRE-FLIGHT CHECK
 └─ [ ] Downstream updates applied (if cascaded)
 ```
 
+### Contract Validation (Phase Document)
+
+After editing, validate the document against the contract for **its own phase**
+(`define` or `design`) by running the spec-linter wrapper with the matching
+`--phase`:
+
+```bash
+# pick the phase that matches the edited document
+${CLAUDE_PLUGIN_ROOT}/tools/spec-linter/spec-lint <EDITED_DOC.md> --phase <define|design> \
+  --contracts-file ${CLAUDE_PLUGIN_ROOT}/sdd/architecture/WORKFLOW_CONTRACTS.yaml
+```
+
+Branch on the exit code:
+
+- **0 (PASS/WARN)** → proceed; record any `WARN` finding in the revision note.
+- **1 (FAIL)** → an edit dropped a required section. BLOCK: restore/add the
+  missing section before finishing.
+- **2 (ERROR / linter unavailable)** → record a VISIBLE note
+  (`⚠️ contract check skipped — linter unavailable`) and proceed. Never treat
+  exit 2 as a PASS.
+
+Only `define` and `design` have `required_sections` defined in
+`WORKFLOW_CONTRACTS.yaml`; editing a `brainstorm` document (no phase contract
+yet) makes this check N/A — the Pre-Flight Check above governs that case. In the
+development repo the check runs for real; in an installed plugin it is
+best-effort and degrades safely until runtime dependency provisioning lands.
+
 ### Anti-Patterns
 
 | Never Do | Why | Instead |

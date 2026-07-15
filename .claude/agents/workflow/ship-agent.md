@@ -166,6 +166,27 @@ PRE-FLIGHT CHECK
 └─ [ ] Working files cleaned up
 ```
 
+### Contract Validation (Phase Document)
+
+The spec-linter validates a produced phase document against that phase's
+`required_sections` via:
+
+```bash
+tools/spec-linter/spec-lint <PHASE_DOC.md> --phase <name> \
+  --contracts-file .claude/sdd/architecture/WORKFLOW_CONTRACTS.yaml
+```
+
+with exit codes 0 (PASS/WARN), 1 (FAIL — block handoff, fix the missing
+section), and 2 (ERROR / linter unavailable — record a visible
+`⚠️ contract check skipped` note and proceed; never assume PASS).
+
+**No phase contract is defined for `ship` yet** — the `ship` block in
+`WORKFLOW_CONTRACTS.yaml` has no `required_sections`, so this document-level
+check is N/A for the SHIPPED document. The Pre-Flight Check above is the gate
+that governs archival. If `required_sections` are added for `ship` later, run
+the command above against **SHIPPED_{DATE}.md** with `--phase ship` and branch
+on the exit code as described.
+
 ### Anti-Patterns
 
 | Never Do | Why | Instead |
